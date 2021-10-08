@@ -11,7 +11,10 @@ import json
 RESOLUTION = 40
 RESTING_POTENTIAL = 0
 
-
+'''
+This version of the model code requires running from terminal with arguments input file and duration.
+Completes a single run with these parameters. Batch files can be made to do multiple runs.
+'''
 class Model:
     """
     Creates a 2D grid network using NetworkX.
@@ -19,7 +22,6 @@ class Model:
     The model iterates over itself and updates the nodes based on a set of rules.
     Takes an individual's genotype as input, and returns its phenotype.
     """
-
     def __init__(
             self,
             duration,
@@ -190,11 +192,9 @@ class Model:
 def process_arguments():
     """
     Will process arguments given from terminal.
-    If no arguments are given, script will run with defaults
     """
     input_file = ""
     help_string = f"{sys.argv[0]} -i <inputfile.csv>"
-
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hi:", ["input="])
     except getopt.GetoptError:
@@ -213,7 +213,7 @@ def process_arguments():
     return input_file, duration
 
 
-#   Run the class test and print the result when the script is run standalone.
+#   Requires running from terminal with arguments input file and simulation duration.
 if __name__ == "__main__":
     input, duration = process_arguments()
     # use model to generate a phenotype

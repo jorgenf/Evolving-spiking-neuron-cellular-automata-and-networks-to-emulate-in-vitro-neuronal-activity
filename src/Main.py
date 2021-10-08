@@ -86,7 +86,6 @@ def run_threads(individuals):
     Pool-size = threads - 1.
     Each thread result is mapped to a variable that is returned when all processes are finished
     """
-
     with Pool(os.cpu_count() - 1) as p:
         new_individuals = p.map(evo.generate_phenotype, individuals)
         p.close()
@@ -100,13 +99,11 @@ def process_arguments():
     """
     input_file = ""
     help_string = f"{sys.argv[0]} -i <inputfile.csv>"
-
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hi:", ["input="])
     except getopt.GetoptError:
         print(help_string)
         sys.exit(2)
-
     for opt, arg in opts:
         if opt == "-h":
             print(help_string)
@@ -114,7 +111,6 @@ def process_arguments():
         elif opt in ("-i", "--input"):
             input_file = arg
             print(input_file)
-
     return input_file
 
 
@@ -122,12 +118,10 @@ def process_arguments():
 PROGRAM
 """
 if __name__ == "__main__":
-
     # initialize the evolution
     t_simulation_start = time.time()
     evolution_parameters = list()
     input_file = process_arguments()
-
     # run with default parameters if no .CSV file is given
     if input_file == "":
         evolution_parameters.append(default_parameters)
@@ -151,7 +145,6 @@ if __name__ == "__main__":
                     "RETAINED_ADULTS_P": float(row[9]),
                     "REFERENCE_PHENOTYPE": row[10]
                 })
-
     for evo_i, params in enumerate(evolution_parameters):
         t_evo_start = time.time()
         # print summary of the running simulation parameters
@@ -163,23 +156,19 @@ if __name__ == "__main__":
         for key in iterator:
             print(f"{key}: {params[key]}")
         print()
-
         #   Creates population object with POPULATION_SIZE.
         #   Creates the set of genes that apply to this specific population
         pop = Population.Population(
             params["POPULATION_SIZE"],
             params["MODEL_TYPE"][1]
         )
-
         # Creates Evolution object with parameters set
         evo = Evolution.Evolution(params)
-
         # Initialize datasets
         fitness_trend = []
         average_fitness_trend = []
         parameter_trend = []
         generation_summary = {}
-
         # Start the evolution. Runs loop for NUM_GENERATIONS
         # print("Running simulation...")
         est_time = "?"
@@ -188,10 +177,8 @@ if __name__ == "__main__":
             # print("\nGeneration:", i)
             # print("Workers: ", end="")
             print(f"Simulating generation {i + 1}/{params['NUM_GENERATIONS']} ({est_time} s per generation)", end="\r")
-
             #   Run the evolutionary algorithm on the population
             pop_with_phenotypes = run_threads(pop.individuals)
-
             #   Record data of the population
             fitness_trend.append([i.fitness for i in pop_with_phenotypes])
             average_fitness_trend.append(sum(
@@ -199,20 +186,16 @@ if __name__ == "__main__":
             ) / params["POPULATION_SIZE"])
             parameter_trend.append(np.sum(
                 [i.genotype for i in pop_with_phenotypes], 0) / params["POPULATION_SIZE"])
-
             # Sort the population in order to pick out the best fitness
             sorted_pop = pop_with_phenotypes
             sorted_pop.sort(key=lambda x: x.fitness, reverse=True)
-
             #   If there is no recorded best individual, choose the best one of this generation
             if not evo.best_individual_overall:
                 evo.best_individual_overall = (i, sorted_pop[0])
-
             #   If the fitness of the best individual in this generation is better than the best recorded individual,
             #   let the new one take its place as the best.
             elif evo.best_individual_overall[1].fitness < sorted_pop[0].fitness:
                 evo.best_individual_overall = (i, sorted_pop[0])
-
             #   Reproduction
             if i < params["NUM_GENERATIONS"] - 1:
                 parents = evo.select_parents(pop_with_phenotypes)
@@ -220,13 +203,11 @@ if __name__ == "__main__":
                 pop.individuals = new_gen
             else:
                 pop.individuals = pop_with_phenotypes
-
             # estimate generation run time
             if est_time == "?":
                 est_time = round(time.time() - t_generation_start)
             else:
                 est_time = round(est_time * 0.8 + (time.time() - t_generation_start) * 0.2)
-
             # record the phenotype top individuals every 5th generation
             gen_summary = {}
             if i % 5 == 0 or i + 1 == params["NUM_GENERATIONS"]:
@@ -238,16 +219,13 @@ if __name__ == "__main__":
                         "phenotype": sorted_pop[j].phenotype.tolist(),
                         "fitness": sorted_pop[j].fitness,
                     }
-
             # record fitness and genotype of all individuals every generation
             gen_summary["all"] = [{"fitness": indiv.fitness,"genotype": indiv.genotype} for indiv in sorted_pop]
             gen_summary["time"] = round(time.time() - t_generation_start, 3)
             generation_summary[i + 1] = gen_summary
-
         #   Save the running time of the script
         end_time = time.time()
         t_evo_total = time.time() - t_evo_start
-
         # Save a summary of the evolution
         summary = Summary.Summary(pop, params, evo)
         summary.raster_plot()
@@ -258,6 +236,5 @@ if __name__ == "__main__":
         summary.save_model(evo.best_individual_overall[1].model)
         summary.save_stats(generation_summary)
         print(f"\nEA simulated in {t_evo_total:.2f} seconds")
-
     t_simulation_total = round(time.time() - t_simulation_start)
     print(f"Simulation completed in {t_simulation_total // 60} minutes, {t_simulation_total % 60} seconds")
