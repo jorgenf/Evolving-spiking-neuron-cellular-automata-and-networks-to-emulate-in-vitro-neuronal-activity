@@ -68,7 +68,6 @@ def test_class():
     make_raster_plot(reference_file["small"], output, DURATION)
     # Plot the network topology
     model.show_network(grid=True)
-    model.print_weights()
 
 
 class Model:

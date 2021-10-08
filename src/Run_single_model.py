@@ -11,6 +11,7 @@ import json
 RESOLUTION = 40
 RESTING_POTENTIAL = 0
 
+
 class Model:
     """
     Creates a 2D grid network using NetworkX.
@@ -23,9 +24,8 @@ class Model:
             self,
             duration,
             model,
-            resolution = RESOLUTION
+            resolution=RESOLUTION
     ):
-
         self.model, self.genotype, dimension, model_type = Data.load_model(model)
         self.model_type = model_type
         #   Firing Threshold in the membrane.
@@ -49,8 +49,6 @@ class Model:
         self.integ_constant = self.genotype[5] * 0.5
         #   For CA it determines the radius of connections. For the network model it determines number of conenctions.
         #   (Default: 2.1 (Network))
-
-
         #   Resting potential in the membrane (Default: 0.5)
         #   Currently not controlled by the algorithm
         self.rest_pot = RESTING_POTENTIAL
@@ -66,15 +64,8 @@ class Model:
         #  Initialize Network
         if model:
             self.config = self.model
-
-
-        #   Position field can be used to invert coordinates for visualization
-        #   self.config.pos = {(x, y): (x, y) for x, y in self.config.nodes()}
-
         #  Copy Network
         self.next_config = self.config.copy()
-    #   Copy position field (currently not needed)
-    #   self.next_config.pos = self.config.pos
 
     def alter_state(self, neuron, inp):
         """
@@ -120,7 +111,7 @@ class Model:
         """
         s = []
         for x, y in self.electrodes:
-            if self.config.nodes[str((x,y))]["state"] == 1:
+            if self.config.nodes[str((x, y))]["state"] == 1:
                 s.append((0 + (self.step / self.resolution), self.electrodes.index((x, y))))
         return s if s else 0
 
@@ -148,14 +139,19 @@ class Model:
             r += 1
         return el_list
 
-
     def print_weights(self):
+        '''
+        Prints the weights of the network.
+        '''
         for n, nbrs_dict in self.config.adjacency():
             for nbr, e_attr in nbrs_dict.items():
                 if "weight" in e_attr:
                     print(e_attr)
 
     def show_network(self, grid=False):
+        '''
+        Uses the networkx library to display the network. Red nodes are inhibitory, while green are excitatory.
+        '''
         edge_weights = []
         for e in self.config.edges(data=True):
             edge_weights.append(e[2]["weight"])
@@ -190,6 +186,7 @@ class Model:
         #   Return phenotype
         return np.array(self.spikes, dtype=[("t", "float64"), ("electrode", "int64")])
 
+
 def process_arguments():
     """
     Will process arguments given from terminal.
@@ -215,18 +212,18 @@ def process_arguments():
             print("Duration: ", duration)
     return input_file, duration
 
+
 #   Run the class test and print the result when the script is run standalone.
 if __name__ == "__main__":
-
     input, duration = process_arguments()
     # use model to generate a phenotype
     model = Model(duration=duration, model=input)
     s = time.time()
     output = model.run_simulation()
-    data = {"duration": duration, "spike_times": [float(x[0]) for x in output], "electrod_id": [int(x[1]) for x in output]}
+    data = {"duration": duration, "spike_times": [float(x[0]) for x in output],
+            "electrod_id": [int(x[1]) for x in output]}
     dir = "../Output/" + input + "/"
     with open(dir + "single_run_" + str(duration) + ".json", "w") as f:
         json.dump(data, f)
     print(len(output))
     print(f"{time.time() - s:.2f} seconds")
-
