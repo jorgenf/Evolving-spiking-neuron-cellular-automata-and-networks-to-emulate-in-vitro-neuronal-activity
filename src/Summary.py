@@ -79,13 +79,12 @@ class Summary:
         for row in self.phenotype_reference:
             self.B_spikes_per_array[row[1]].append(row[0])
         #   Initialize plot
-        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(nrows=2, ncols=2, sharex="all", sharey="row")
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(nrows=2, ncols=2, sharey="row")
         #   Make raster plots
         ax1.eventplot(
             self.A_spikes_per_array,
             linewidths=0.5
         )
-        ax1.set_xlabel("Seconds")
         ax1.set_ylabel("Electrode ID")
         ax1.set_title("Best model")
         ax2.eventplot(
@@ -93,13 +92,12 @@ class Summary:
             linewidths=0.5,
             color="black"
         )
-        ax2.set_xlabel("Seconds")
         ax2.set_title("Neural culture")
         #   Make histograms
-        ax3.hist(self.simulation_spikes)
+        ax3.bar(range(len(self.simulation_spikes)), self.simulation_spikes, align="edge", width=1)
         ax3.set_xlabel("Seconds")
         ax3.set_ylabel("Spikes per second")
-        ax4.plot(self.reference_spikes, color="black")
+        ax4.bar(range(len(self.reference_spikes)), self.reference_spikes, color="black", align="edge", width=1)
         ax4.set_xlabel("Seconds")
         fig.savefig(self.dir_path + "/Best_individual.png")
         plt.close()

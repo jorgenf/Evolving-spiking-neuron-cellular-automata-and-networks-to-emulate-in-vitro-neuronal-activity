@@ -55,14 +55,14 @@ default_parameters = {
     # Size of one dimension in the array / grid / matrix
     "DIMENSION": 10,
     #   Number of individuals in the population
-    "POPULATION_SIZE": 60,
+    "POPULATION_SIZE": 6,
     #   Number of generations to run.
     #   Each generation will run one simulation of the model for every individual in the population
-    "NUM_GENERATIONS": 1,
+    "NUM_GENERATIONS": 3,
     #   Start of recording
     "RECORDING_START": 1000,
     #   Simulation duration in seconds
-    "SIMULATION_DURATION": 1000,
+    "SIMULATION_DURATION": 100,
     #   Number of simulation iterations per second
     "TIME_STEP_RESOLUTION": 40,
     #   The probability of mutation in any gene
