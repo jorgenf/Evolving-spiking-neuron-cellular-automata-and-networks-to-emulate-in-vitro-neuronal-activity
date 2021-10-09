@@ -62,6 +62,9 @@ def read_recording(filename, recording_start, recording_len):
     return data_points
 
 def load_model(filename):
+    '''
+    Loads a graph object with nodes, edges and properties.
+    '''
     model = nx.read_graphml("../Output/" + filename + "/model.gml")
     file = open("../Output/" + filename + "/evolution_data.json")
     data = json.load(file)

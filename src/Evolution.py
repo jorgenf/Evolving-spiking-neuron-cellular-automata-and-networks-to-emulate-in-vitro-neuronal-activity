@@ -75,25 +75,6 @@ class Evolution:
             )
             individual.model = model
         phenotype = individual.model.run_simulation()
-
-        # if self.model_type == "CA":
-        #     #   Run a simulation of the model to return a phenotype from the genotype.
-        #     phenotype = CellularAutomataModel.CellularAutomataModel(
-        #         individual=individual,
-        #         dimension=self.dimension,
-        #         duration=self.simulation_duration,
-        #         resolution=self.resolution
-        #         ).run_simulation()
-
-        # elif self.model_type == "Network":
-        #     #   Run a simulation of the model to return a phenotype from the genotype.
-        #     phenotype = NetworkModel.NetworkModel(
-        #         individual=individual,
-        #         dimension=self.dimension,
-        #         duration=self.simulation_duration,
-        #         resolution=self.resolution
-        #         ).run_simulation()
-
         #   Calculate the fitness of the phenotype
         fitness = Fitness.get_fitness(phenotype, 0, self.reference_phenotype, self.recording_start, self.simulation_duration)
         #   Append results to the individual

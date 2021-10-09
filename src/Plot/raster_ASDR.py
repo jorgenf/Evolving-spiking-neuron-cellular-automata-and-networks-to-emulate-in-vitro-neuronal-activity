@@ -9,7 +9,7 @@ import numpy as np
 import time
 import math
 
-import Code.Data as Data
+import src.Data as Data
 
 
 sim_length = 1800
