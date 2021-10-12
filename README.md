@@ -1,10 +1,17 @@
 # Evolving-spiking-neuron-cellular-automata-and-networks-to-emulate-in-vitro-neuronal-activity
-Code accompanying paper-ID 1415 submitted to the SSCI 2021 conference.
+Code accompanying "Evolving spiking neuron cellular automata and networks to emulate in vitro neuronal activity" [1], 
+accepted to the International Conference on Evolvable Systems (IEEE SSCI 2021).
+
+ICES page:
+https://attend.ieee.org/ssci-2021/international-conference-on-evolvable-systems-ices/
 
 STRUCTURE:\
-There are two folders in the main directory. Resources contains the datafiles for the neural recordings as .txt files.
-These are structured as one row per spike with the first column being the timestamp and the second being the electrode
-id. 
+There are two folders in the main directory.
+
+Resources contains the neural data used in this study as .txt files. The data were collected by Wagenaar et al. [2], 
+and the full open dataset can be found here: http://neurodatasharing.bme.gatech.edu/development-data/html/index.html
+
+Each file contains the time (column 1) and recording channel (column 2) of each spike detected in the data.
 
 The project code is found in the src-folder. The code to run the models and evolutionary algorithm is found here.
 Additionally there is a separate folder for plotting results.
@@ -32,3 +39,10 @@ EXTERNAL LIBRARIES:
 - Pylab
 - Seaborn
 - Pandas
+
+[1] J Jensen Farner, H Weydahl, CR Jahren, O Huse Ramstad, S Nichele, and K Heiney. "Evolving spiking neuron cellular
+automata and networks to emulate in vitro neuronal activity," International Conference on Evolvable Systems
+(IEEE Symposium Series on Computational Intelligence 2021), 2021. 
+
+[2] DA Wagenaar, J Pine, and SM Potter, "An extremely rich repertoire of bursting patterns during teh development of 
+cortical cultures," BMC Neuroscience, 7(1):11, 2006.

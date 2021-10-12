@@ -15,7 +15,7 @@ RESTING_POTENTIAL = 0
 This version of the model code requires running from terminal with arguments input file and duration.
 Completes a single run with these parameters. Batch files can be made to do multiple runs.
 '''
-class Model:
+class Single_Model:
     """
     Creates a 2D grid network using NetworkX.
     The nodes in the network emulate the behaviour of neurons.
@@ -217,7 +217,7 @@ def process_arguments():
 if __name__ == "__main__":
     input, duration = process_arguments()
     # use model to generate a phenotype
-    model = Model(duration=duration, model=input)
+    model = Single_Model(duration=duration, model=input)
     s = time.time()
     output = model.run_simulation()
     data = {"duration": duration, "spike_times": [float(x[0]) for x in output],

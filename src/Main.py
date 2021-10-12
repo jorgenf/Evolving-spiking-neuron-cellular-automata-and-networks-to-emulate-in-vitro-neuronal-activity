@@ -5,7 +5,7 @@ import getopt
 import csv
 from multiprocessing import Pool
 import numpy as np
-from src import Population, Summary, Evolution, Data
+import Population, Summary, Evolution, Data
 
 """
 PARAMETERS
