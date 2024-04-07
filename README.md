@@ -30,6 +30,9 @@ RUNNING BATCH FILES:\
 Multiple simulations can be run by passing batch files as arguments when running Main.py. Batch files must be .csv
 files. An example can be seen in batch_example.csv. Each row is a separate run.
 
+![Class_Diagram_ACIT4610-P2](https://github.com/jorgenf/Evolving-spiking-neuron-cellular-automata-and-networks-to-emulate-in-vitro-neuronal-activity/assets/36281324/50f9b20c-ed69-4e7a-ac06-75bfba053cdd)
+
+
 EXTERNAL LIBRARIES:
 - Pandas
 - Numpy
